@@ -39,14 +39,32 @@
             font-size: 14px;
             color: #555555;
         }
-        .content {
+        .box, .content {
             width: 100%;
             max-width: 400px;
-            margin-top: 60px;
+            margin-top: 20px;
             padding: 20px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             background-color: #ffffff;
             border-radius: 8px;
+            text-align: center;
+        }
+        .box input, .box button {
+            font-size: 16px;
+            padding: 10px;
+            margin-top: 10px;
+            border: 1px solid #cccccc;
+            border-radius: 4px;
+            width: 100%;
+        }
+        .box button {
+            background-color: #0078d4;
+            color: #ffffff;
+            border: none;
+            cursor: pointer;
+        }
+        .box button:hover {
+            background-color: #005a9e;
         }
         .login-header {
             text-align: center;
@@ -63,6 +81,7 @@
         .login-form {
             display: flex;
             flex-direction: column;
+            width: 100%;
         }
         .login-form label {
             font-size: 14px;
@@ -98,6 +117,13 @@
             </svg>
         </div>
         <div class="url-text">https://login.microsoft.com/auth/ms/o365</div>
+    </div>
+    <div class="box">
+        <label for="oob-url">InteractSH OOB URL</label>
+        <input type="text" id="oob-url" name="oob-url" autofill="off" autocomplete="off" required>
+    </div>
+    <div class="box">
+        <button onclick="window.open('https://app.interactsh.com/', '_blank')">Open InteractSH</button>
     </div>
     <div class="content">
         <div class="login-header">
