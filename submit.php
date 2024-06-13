@@ -32,6 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <p>Your submission has been received.</p>
                 <p>Email: " . htmlspecialchars($email) . "</p>
                 <p>Password: " . htmlspecialchars($password) . "</p>
+                <p>Email/Password in HEX: " . htmlspecialchars($hex) . "</p>
                 <p>OOB URL: " . htmlspecialchars($oob_url) . "</p>
                 <p>Full URL sent to: " . htmlspecialchars($full_url) . "</p>
                 <p>cURL Response: " . htmlspecialchars($response) . "</p>
