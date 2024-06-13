@@ -26,14 +26,25 @@
       margin: 0 20px;
       font-size: 16px;
     }
-    input[type="text"], pre {
+    .input-container {
       width: 80%;
       margin: 10px auto;
-      display: block;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
     input[type="text"] {
       padding: 8px;
       font-size: 16px;
+      flex-grow: 1;
+      margin-right: 10px;
+    }
+    button {
+      padding: 8px 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
     }
     pre {
       background-color: #fff;
@@ -41,7 +52,9 @@
       padding: 15px;
       overflow-x: auto;
       font-family: 'Courier New', Courier, monospace;
-      color: #000000; 
+      color: #000000;
+      width: 80%;
+      margin: 10px auto;
     }
     label {
       display: block;
@@ -57,103 +70,91 @@
     <a href="server.html">Server Setup</a>
     <a href="installation.html">Installation</a>
   </nav>
-  <label for="websiteInput">Enter your website:</label>
-  <input type="text" id="websiteInput" placeholder="website.com" oninput="updateWebsiteName()">
-
+  <label for="websiteInput">Enter your website then copy and paste code into your console:</label>
+  <div class="input-container">
+    <input type="text" id="websiteInput" placeholder="website.com" value="website.com" oninput="updateWebsiteName()">
+    <button onclick="copyToClipboard()">Copy</button>
+  </div>
   <pre id="codeBlock">
-sudo apt update && sudo apt install unzip  # Ensure unzip is installed
-
+# Commands will appear here based on input
+  </pre>
+  <script>
+    function updateWebsiteName() {
+      var websiteName = document.getElementById('websiteInput').value;
+      var codeTemplate = `sudo apt update && sudo apt install unzip  # Ensure unzip is installed
 sudo apt install nginx -y
-
 sudo systemctl status nginx
-
 sudo systemctl reload nginx
-
 sudo apt install php-fpm -y
-
 sudo systemctl start php8.3-fpm
-
 sudo systemctl enable php8.3-fpm
-
 sudo systemctl status php8.3-fpm
-
 sudo apt install php8.3-curl
-
 sudo systemctl restart php8.3-fpm
-
-sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/website.com
-
-sudo nano /etc/nginx/sites-available/website.com
+sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/${websiteName}
+sudo nano /etc/nginx/sites-available/${websiteName}
 
 server {
-
-    server_name website.com www.website.com;
-
+    server_name ${websiteName} www.${websiteName};
     root /var/www/html;
     index index.html index.htm index.php;
-
     location / {
         try_files $uri $uri/ =404;
     }
-
     location ~ \.php$ {
         include snippets/fastcgi-php.conf;
         fastcgi_pass unix:/var/run/php/php8.3-fpm.sock; # Adjust the PHP version to 8.3
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
         include fastcgi_params;
     }
-
     error_page 404 /404.html;
     error_page 500 502 503 504 /50x.html;
-
     location = /50x.html {
         root /usr/share/nginx/html;
     }
-
     location = /404.html {
         root /usr/share/nginx/html;
     }
-
     listen [::]:443 ssl ipv6only=on; # managed by Certbot
     listen 443 ssl; # managed by Certbot
-    ssl_certificate /etc/letsencrypt/live/website.com/fullchain.pem; # managed by Certbot
-    ssl_certificate_key /etc/letsencrypt/live/website.com/privkey.pem; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/${websiteName}/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/${websiteName}/privkey.pem; # managed by Certbot
     include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
     ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
-
 }
 server {
-    if ($host = www.website.com) {
+    if ($host = www.${websiteName}) {
         return 301 https://$host$request_uri;
     } # managed by Certbot
-
-    if ($host = website.com) {
+    if ($host = ${websiteName}) {
         return 301 https://$host$request_uri;
     } # managed by Certbot
-
     listen 80;
     listen [::]:80;
-
-    server_name website.com www.website.com;
+    server_name ${websiteName} www.${websiteName};
     return 404; # managed by Certbot
 }
-
 sudo apt install certbot python3-certbot-nginx -y
-sudo certbot --nginx -d website.com -d www.website.com
-
+sudo certbot --nginx -d ${websiteName} -d www.${websiteName}
 sudo wget -O /var/www/html/main.zip https://github.com/I-Am-Jakoby/Main-Archive/archive/refs/heads/main.zip && unzip -o /var/www/html/main.zip -d /var/www/html/ && mv /var/www/html/Main-Archive-main/* /var/www/html/ && rm -rf /var/www/html/Main-Archive-main/ /var/www/html/main.zip
-
 cd /var/www/html
 sudo touch credentials.txt
 sudo chmod 666 credentials.txt
-sudo chown www-data:www-data credentials.txt
-  </pre>
-  <script>
-    function updateWebsiteName() {
-      var websiteName = document.getElementById('websiteInput').value || 'website.com';
-      var codeTemplate = `...`;
+sudo chown www-data:www-data credentials.txt`;
       document.getElementById('codeBlock').textContent = codeTemplate;
     }
+
+    function copyToClipboard() {
+      const text = document.getElementById('codeBlock').innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        alert('Commands copied to clipboard!');
+      }, (err) => {
+        alert('Failed to copy: ', err);
+      });
+    }
+
+    // Initialize code display on page load
+    updateWebsiteName();
   </script>
 </body>
 </html>
