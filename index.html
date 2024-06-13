@@ -8,13 +8,28 @@
   <meta name="theme-color" content="#000000">
   <link rel="stylesheet" href="styles.css">
   <style>
-    body {
+  body {
       display: flex;
       flex-direction: column;
       align-items: center;
       padding-top: 50px;
       margin: 0;
       font-family: Arial, sans-serif;
+    }
+    nav {
+      width: 100%;
+      background: #333;
+      padding: 10px 0;
+      position: fixed;
+      top: 0;
+      display: flex;
+      justify-content: center;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 20px;
+      font-size: 16px;
     }
     .circle {
       width: 150px;
@@ -38,7 +53,6 @@
     }
     #installButton {
       margin-top: 20px;
-      display: none;
       background-color: #333;
       color: white;
       border: none;
