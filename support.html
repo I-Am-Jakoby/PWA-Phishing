@@ -3,89 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Support mr.d0x</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <title>Dashboard Links</title>
     <style>
         body {
-            font-family: 'Roboto', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f0f4f7;
-            color: #333;
-        }
-        nav {
-            width: 100%;
-            background: #333;
-            padding: 10px 0;
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
             display: flex;
             justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
         }
-        nav a {
-            color: #fff;
-            text-decoration: none;
-            margin: 0 20px;
-            font-size: 16px;
-        }
-        .container {
+        .dashboard {
+            position: relative; /* Set relative positioning for the parent */
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
             width: 90%;
-            max-width: 1000px;
-            margin: auto;
-            padding: 20px;
+            max-width: 600px;
         }
         .card {
-            background: #fff;
+            background: white;
+            border: 2px solid #007BFF;
             border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            margin: 20px 0;
             padding: 20px;
             text-align: center;
+            transition: transform 0.2s;
+            position: relative; /* Ensure all cards can use z-index */
+            z-index: 1; /* Normal layer */
         }
-        h1, h2 {
-            color: #00449e;
+        .card.twitter {
+            z-index: 2; /* Higher layer */
+            box-shadow: 0 4px 8px rgba(0, 123, 255, 0.6); /* Optional: add a shadow for emphasis */
         }
-        p, li {
-            font-size: 16px;
-            line-height: 1.5;
+        .card:hover {
+            transform: translateY(-5px);
+            cursor: pointer;
         }
-        .footer {
-            text-align: center;
-            padding: 20px 0;
-            font-size: 14px;
-            background: #333;
-            color: #fff;
+        a {
+            text-decoration: none;
+            color: #007BFF;
         }
     </style>
 </head>
 <body>
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="server.html">Server Setup</a>
-    <a href="installation.html">Installation</a>
-    <a href="demo.html">Demo</a> 
-    <a href="support.html">Support Mr. D0x</a>    
-  </nav>
-    <div class="container">
-        <h1>Support mr.d0x</h1>
-        <div class="card">
-            <h2>Follow on Twitter</h2>
-            <!-- Twitter embed code here -->
-            <a href="https://twitter.com/mrd0x" target="_blank">@mrd0x</a>
+    <div class="dashboard">
+        <div class="card twitter" onclick="window.location='https://twitter.com/mrd0x';">
+            <a href="https://twitter.com/mrd0x" target="_blank">Follow Mr. D0x on Twitter</a>
         </div>
-        <div class="card">
-            <h2>Projects</h2>
-            <ul>
-                <li><a href="https://maldevacademy.com" target="_blank">Maldev Academy</a></li>
-                <li><a href="https://lots-project.com" target="_blank">LOTS Project</a></li>
-                <li><a href="https://filesec.io" target="_blank">Filesec.io</a></li>
-            </ul>
+        <div class="card" onclick="window.location='https://maldevacademy.com';">
+            <a href="https://maldevacademy.com" target="_blank">Maldev Academy</a>
         </div>
-        <div class="card">
-            <p>Visit the official website for more information:</p>
-            <a href="https://mrd0x.com" target="_blank">mrd0x.com</a>
+        <div class="card" onclick="window.location='https://lots-project.com';">
+            <a href="https://lots-project.com" target="_blank">LOTS Project</a>
+        </div>
+        <div class="card" onclick="window.location='https://filesec.io';">
+            <a href="https://filesec.io" target="_blank">Filesec.io</a>
+        </div>
+        <div class="card" onclick="window.location='https://mrd0x.com';">
+            <a href="https://mrd0x.com" target="_blank">Official website of Mr. D0x</a>
         </div>
     </div>
-    <div class="footer">
-        Thank you for your support!
-    </div>
+    <script>
+        // JavaScript can be used for more interactivity if needed
+    </script>
 </body>
 </html>
