@@ -7,7 +7,8 @@ self.addEventListener('install', event => {
         return cache.addAll([
           '/index.html',
           '/mrd0x.html',
-          '/projects.html',
+          '/server.html',
+          '/installation.html',
           '/demo.html',
           '/support.html',
           '/styles.css',
