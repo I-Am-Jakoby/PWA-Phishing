@@ -16,6 +16,21 @@
       margin: 0;
       font-family: Arial, sans-serif;
     }
+    nav {
+      width: 100%;
+      background: #333;
+      padding: 10px 0;
+      position: fixed;
+      top: 0;
+      display: flex;
+      justify-content: center;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 20px;
+      font-size: 16px;
+    }
     .circle {
       width: 150px;
       height: 150px;
@@ -58,7 +73,12 @@
   </style>
 </head>
 <body>
-  <div class="circle-container">
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="resources.html">Resources</a>
+    <a href="installation.html">Installation</a>
+  </nav>
+  <div class="circle-container" style="margin-top: 60px;">
     <div class="circle">
       <img src="mrd0x.png" alt="Profile Image">
     </div>
@@ -72,66 +92,6 @@
     <img src="microsoft-logo.svg" alt="Microsoft Logo">
     Install Microsoft Application
   </button>
-  <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/service-worker.js')
-          .then(registration => {
-            console.log('ServiceWorker registration successful with scope: ', registration.scope);
-          }, err => {
-            console.log('ServiceWorker registration failed: ', err);
-          });
-      });
-    }
-
-    let deferredPrompt;
-    const installButton = document.getElementById('installButton');
-
-    window.addEventListener('beforeinstallprompt', (e) => {
-      // Prevent the mini-infobar from appearing on mobile
-      e.preventDefault();
-      // Stash the event so it can be triggered later.
-      deferredPrompt = e;
-      // Update UI to notify the user they can install the PWA
-      installButton.style.display = 'flex';
-
-      installButton.addEventListener('click', () => {
-        // Hide the button
-        installButton.style.display = 'none';
-        // Show the install prompt
-        deferredPrompt.prompt();
-        // Wait for the user to respond to the prompt
-        deferredPrompt.userChoice.then((choiceResult) => {
-          if (choiceResult.outcome === 'accepted') {
-            console.log('User accepted the install prompt');
-          } else {
-            console.log('User dismissed the install prompt');
-          }
-          deferredPrompt = null;
-        });
-      });
-    });
-
-    window.addEventListener('appinstalled', (evt) => {
-      console.log('PWA was installed');
-      // Redirect to /mrd0x.html
-      redirectToMrd0x();
-    });
-
-    function redirectToMrd0x() {
-      // Check if the service worker is registered
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.getRegistration().then((registration) => {
-          if (registration) {
-            registration.update().then(() => {
-              window.location.href = '/mrd0x.html';
-            });
-          }
-        });
-      } else {
-        window.location.href = '/mrd0x.html';
-      }
-    }
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
