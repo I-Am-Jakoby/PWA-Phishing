@@ -1,1 +1,213 @@
-<>works</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dynamic Setup Instructions</title>
+  <style>
+    body {
+      font-family: 'Courier New', Courier, monospace;
+      padding: 20px;
+      background-color: #f4f4f4;
+    }
+    pre {
+      background-color: #fff;
+      border: 1px solid #ccc;
+      padding: 15px;
+      overflow-x: auto;
+    }
+    input[type="text"] {
+      margin-bottom: 20px;
+      padding: 8px;
+      font-size: 16px;
+      width: 300px;
+    }
+  </style>
+</head>
+<body>
+  <label for="websiteInput">Enter your website:</label>
+  <input type="text" id="websiteInput" placeholder="website.com" oninput="updateWebsiteName()">
+
+  <pre id="codeBlock">
+sudo apt update && sudo apt install unzip  # Ensure unzip is installed
+
+sudo apt install nginx -y
+
+sudo systemctl status nginx
+
+sudo systemctl reload nginx
+
+sudo apt install php-fpm -y
+
+sudo systemctl start php8.3-fpm
+
+sudo systemctl enable php8.3-fpm
+
+sudo systemctl status php8.3-fpm
+
+sudo apt install php8.3-curl
+
+sudo systemctl restart php8.3-fpm
+
+sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/website.com
+
+sudo nano /etc/nginx/sites-available/website.com
+
+server {
+
+    server_name website.com www.website.com;
+
+    root /var/www/html;
+    index index.html index.htm index.php;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+
+    location ~ \.php$ {
+        include snippets/fastcgi-php.conf;
+        fastcgi_pass unix:/var/run/php/php8.3-fpm.sock; # Adjust the PHP version to 8.3
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        include fastcgi_params;
+    }
+
+    error_page 404 /404.html;
+    error_page 500 502 503 504 /50x.html;
+
+    location = /50x.html {
+        root /usr/share/nginx/html;
+    }
+
+    location = /404.html {
+        root /usr/share/nginx/html;
+    }
+
+    listen [::]:443 ssl ipv6only=on; # managed by Certbot
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/website.com/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/website.com/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+}
+server {
+    if ($host = www.website.com) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+    if ($host = website.com) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+    listen 80;
+    listen [::]:80;
+
+    server_name website.com www.website.com;
+    return 404; # managed by Certbot
+}
+
+sudo apt install certbot python3-certbot-nginx -y
+sudo certbot --nginx -d website.com -d www.website.com
+
+sudo wget -O /var/www/html/main.zip https://github.com/I-Am-Jakoby/Main-Archive/archive/refs/heads/main.zip && unzip -o /var/www/html/main.zip -d /var/www/html/ && mv /var/www/html/Main-Archive-main/* /var/www/html/ && rm -rf /var/www/html/Main-Archive-main/ /var/www/html/main.zip
+
+cd /var/www/html
+sudo touch credentials.txt
+sudo chmod 666 credentials.txt
+sudo chown www-data:www-data credentials.txt
+  </pre>
+  <script>
+    function updateWebsiteName() {
+      var websiteName = document.getElementById('websiteInput').value || 'website.com';
+      var codeTemplate = `sudo apt update && sudo apt install unzip  # Ensure unzip is installed
+
+sudo apt install nginx -y
+
+sudo systemctl status nginx
+
+sudo systemctl reload nginx
+
+sudo apt install php-fpm -y
+
+sudo systemctl start php8.3-fpm
+
+sudo systemctl enable php8.3-fpm
+
+sudo systemctl status php8.3-fpm
+
+sudo apt install php8.3-curl
+
+sudo systemctl restart php8.3-fpm
+
+sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/${websiteName}
+
+sudo nano /etc/nginx/sites-available/${websiteName}
+
+server {
+
+    server_name ${websiteName} www.${websiteName};
+
+    root /var/www/html;
+    index index.html index.htm index.php;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+
+    location ~ \.php$ {
+        include snippets/fastcgi-php.conf;
+        fastcgi_pass unix:/var/run/php/php8.3-fpm.sock; # Adjust the PHP version to 8.3
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        include fastcgi_params;
+    }
+
+    error_page 404 /404.html;
+    error_page 500 502 503 504 /50x.html;
+
+    location = /50x.html {
+        root /usr/share/nginx/html;
+    }
+
+    location = /404.html {
+        root /usr/share/nginx/html;
+    }
+
+    listen [::]:443 ssl ipv6only=on; # managed by Certbot
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/${websiteName}/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/${websiteName}/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+}
+server {
+    if ($host = www.${websiteName}) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+    if ($host = ${websiteName}) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+    listen 80;
+    listen [::]:80;
+
+    server_name ${websiteName} www.${websiteName};
+    return 404; # managed by Certbot
+}
+
+sudo apt install certbot python3-certbot-nginx -y
+sudo certbot --nginx -d ${websiteName} -d www.${websiteName}
+
+sudo wget -O /var/www/html/main.zip https://github.com/I-Am-Jakoby/Main-Archive/archive/refs/heads/main.zip && unzip -o /var/www/html/main.zip -d /var/www/html/ && mv /var/www/html/Main-Archive-main/* /var/www/html/ && rm -rf /var/www/html/Main-Archive-main/ /var/www/html/main.zip
+
+cd /var/www/html
+sudo touch credentials.txt
+sudo chmod 666 credentials.txt
+sudo chown www-data:www-data credentials.txt`;
+
+      document.getElementById('codeBlock').textContent = codeTemplate;
+    }
+  </script>
+</body>
+</html>
