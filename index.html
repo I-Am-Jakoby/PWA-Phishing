@@ -53,7 +53,6 @@
     }
     #installButton {
       margin-top: 20px;
-      display: none;
       background-color: #333;
       color: white;
       border: none;
@@ -77,7 +76,7 @@
     <a href="index.html">Home</a>
     <a href="server.html">Server Setup</a>
     <a href="installation.html">Installation</a>
-    <a href="demo.html">Demo</a> 
+    <a href="demo.html">Demo</a>
     <a href="support.html">Support Mr. D0x</a>    
   </nav>
   <div class="circle-container" style="margin-top: 60px;">
@@ -94,6 +93,36 @@
     <img src="microsoft-logo.svg" alt="Microsoft Logo">
     Install Microsoft Application
   </button>
-  <script src="script.js"></script>
+  <script>
+    const installButton = document.getElementById('installButton');
+    let deferredPrompt;
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      // Prevent Chrome 67 and earlier from automatically showing the prompt
+      e.preventDefault();
+      // Stash the event so it can be triggered later.
+      deferredPrompt = e;
+      // Update UI notify the user they can add to home screen
+      installButton.style.display = 'flex';
+
+      installButton.addEventListener('click', () => {
+        // Show the prompt
+        deferredPrompt.prompt();
+        // Wait for the user to respond to the prompt
+        deferredPrompt.userChoice.then((choiceResult) => {
+            if (choiceResult.outcome === 'accepted') {
+              console.log('User accepted the A2HS prompt');
+            } else {
+              console.log('User dismissed the A2HS prompt');
+            }
+            deferredPrompt = null;
+        });
+      });
+    });
+
+    window.addEventListener('appinstalled', (evt) => {
+      console.log('a2hs installed');
+    });
+  </script>
 </body>
 </html>
