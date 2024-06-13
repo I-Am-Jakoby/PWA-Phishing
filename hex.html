@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hex to Text Converter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            background-color: white;
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            width: 80%;
+            margin: auto;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            box-sizing: border-box; /* Includes padding and border in element's width and height */
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="server.html">Server Setup</a>
+      <a href="installation.html">Installation</a>
+      <a href="demo.html">Demo</a>
+      <a href="support.html">Support Mr. D0x</a>    
+    </nav>
+    <div class="container">
+        <label for="hexInput">Hex Input:</label>
+        <textarea id="hexInput" placeholder="Enter hex here..."></textarea>
+        <label for="textInput">Text Output:</label>
+        <textarea id="textInput" placeholder="Result..." readonly></textarea>
+        <button onclick="convertHexToText()">Convert</button>
+    </div>
+
+    <script>
+        function convertHexToText() {
+            var hex = document.getElementById("hexInput").value;
+            var text = '';
+            for (var i = 0; i < hex.length; i += 2) {
+                text += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
+            }
+            document.getElementById("textInput").value = text;
+        }
+    </script>
+</body>
+</html>
