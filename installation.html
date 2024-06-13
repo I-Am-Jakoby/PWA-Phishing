@@ -4,23 +4,50 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dynamic Setup Instructions</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: 'Courier New', Courier, monospace;
-      padding: 20px;
-      background-color: #f4f4f4;
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f0f4f7;
+      color: #333;
+    }
+    nav {
+      width: 100%;
+      background: #333;
+      padding: 10px 0;
+      display: flex;
+      justify-content: center;
+    }
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      margin: 0 20px;
+      font-size: 16px;
+    }
+    input[type="text"], pre {
+      width: 80%;
+      margin: 10px auto;
+      display: block;
+    }
+    input[type="text"] {
+      padding: 8px;
+      font-size: 16px;
     }
     pre {
       background-color: #fff;
       border: 1px solid #ccc;
       padding: 15px;
       overflow-x: auto;
+      font-family: 'Courier New', Courier, monospace;
+      color: #000000; 
     }
-    input[type="text"] {
-      margin-bottom: 20px;
-      padding: 8px;
+    label {
+      display: block;
+      width: 80%;
+      margin: 20px auto 10px;
       font-size: 16px;
-      width: 300px;
     }
   </style>
 </head>
@@ -124,93 +151,7 @@ sudo chown www-data:www-data credentials.txt
   <script>
     function updateWebsiteName() {
       var websiteName = document.getElementById('websiteInput').value || 'website.com';
-      var codeTemplate = `sudo apt update && sudo apt install unzip  # Ensure unzip is installed
-
-sudo apt install nginx -y
-
-sudo systemctl status nginx
-
-sudo systemctl reload nginx
-
-sudo apt install php-fpm -y
-
-sudo systemctl start php8.3-fpm
-
-sudo systemctl enable php8.3-fpm
-
-sudo systemctl status php8.3-fpm
-
-sudo apt install php8.3-curl
-
-sudo systemctl restart php8.3-fpm
-
-sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/${websiteName}
-
-sudo nano /etc/nginx/sites-available/${websiteName}
-
-server {
-
-    server_name ${websiteName} www.${websiteName};
-
-    root /var/www/html;
-    index index.html index.htm index.php;
-
-    location / {
-        try_files $uri $uri/ =404;
-    }
-
-    location ~ \.php$ {
-        include snippets/fastcgi-php.conf;
-        fastcgi_pass unix:/var/run/php/php8.3-fpm.sock; # Adjust the PHP version to 8.3
-        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-        include fastcgi_params;
-    }
-
-    error_page 404 /404.html;
-    error_page 500 502 503 504 /50x.html;
-
-    location = /50x.html {
-        root /usr/share/nginx/html;
-    }
-
-    location = /404.html {
-        root /usr/share/nginx/html;
-    }
-
-    listen [::]:443 ssl ipv6only=on; # managed by Certbot
-    listen 443 ssl; # managed by Certbot
-    ssl_certificate /etc/letsencrypt/live/${websiteName}/fullchain.pem; # managed by Certbot
-    ssl_certificate_key /etc/letsencrypt/live/${websiteName}/privkey.pem; # managed by Certbot
-    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
-    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
-
-}
-server {
-    if ($host = www.${websiteName}) {
-        return 301 https://$host$request_uri;
-    } # managed by Certbot
-
-    if ($host = ${websiteName}) {
-        return 301 https://$host$request_uri;
-    } # managed by Certbot
-
-    listen 80;
-    listen [::]:80;
-
-    server_name ${websiteName} www.${websiteName};
-    return 404; # managed by Certbot
-}
-
-sudo apt install certbot python3-certbot-nginx -y
-sudo certbot --nginx -d ${websiteName} -d www.${websiteName}
-
-sudo wget -O /var/www/html/main.zip https://github.com/I-Am-Jakoby/Main-Archive/archive/refs/heads/main.zip && unzip -o /var/www/html/main.zip -d /var/www/html/ && mv /var/www/html/Main-Archive-main/* /var/www/html/ && rm -rf /var/www/html/Main-Archive-main/ /var/www/html/main.zip
-
-cd /var/www/html
-sudo touch credentials.txt
-sudo chmod 666 credentials.txt
-sudo chown www-data:www-data credentials.txt`;
-
+      var codeTemplate = `...`;
       document.getElementById('codeBlock').textContent = codeTemplate;
     }
   </script>
